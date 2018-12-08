@@ -119,4 +119,39 @@ server.get('/api/projects/:id', (req, res) => {
     });
 });
 
+server.delete('/api/projects/:id', (req, res) => {
+  const { id } = req.params;
+  project
+    .remove(id)
+    .then(count => res.status(200).json(count))
+    .catch(err =>
+      res
+        .status(400)
+        .json({ message: 'Your project could not be deleted.', error: err })
+    );
+});
+
+server.post('/api/projects', (req, res) => {
+  project
+    .insert(req.body)
+    .then(success => res.status(201).json(success))
+    .catch(err =>
+      res
+        .status(400)
+        .json({ message: 'Your project could not be added.', error: err })
+    );
+});
+
+server.put('/api/projects/:id', (req, res) => {
+  const { id } = req.params;
+  project
+    .update(id, req.body)
+    .then(count => res.status(201).json(count))
+    .catch(err =>
+      res
+        .status(400)
+        .json({ message: 'Your project could not be updated.', error: err })
+    );
+});
+
 module.exports = server;
