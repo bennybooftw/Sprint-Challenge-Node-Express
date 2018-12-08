@@ -45,4 +45,39 @@ server.get('/api/actions/:id', (req, res) => {
     }); 
 });
 
+server.delete('/api/actions/:id', (req, res) => {
+  const { id } = req.params;
+  action
+    .remove(id)
+    .then(count => res.status(200).json(count))
+    .catch(err =>
+      res
+        .status(400)
+        .json({ message: 'Your action could not be deleted.', error: err })
+    );
+});
+
+server.post('/api/actions', (req, res) => {
+  action
+    .insert(req.body)
+    .then(success => res.status(201).json(success))
+    .catch(err =>
+      res
+        .status(400)
+        .json({ message: 'Your action could not be added.', error: err })
+    );
+});
+
+server.put('/api/actions/:id', (req, res) => {
+  action
+    .update(req.params.id, req.body)
+    .then(count => res.status(201).json(count))
+    .catch(err =>
+      res
+        .status(400)
+        .json({ message: 'Your action could not be updated.', error: err })
+    );
+});
+
+
 module.exports = server;
